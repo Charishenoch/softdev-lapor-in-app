@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Ubah rute default '/' agar menampilkan register.blade.php
 Route::get('/', function () {
-    return view('welcome');
+    return view('register');
+});
+
+Route::get('/login', function () {
+    return view('login');
 });
