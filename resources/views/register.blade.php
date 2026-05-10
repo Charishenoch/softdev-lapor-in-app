@@ -43,23 +43,29 @@
                 <!-- Jenis Kelamin -->
                 <div class="flex flex-col gap-2">
                     <label class="text-xl font-medium text-gray-700">Jenis Kelamin</label>
-                    <select class="border border-gray-400 p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none bg-white">
-                        <option value="" disabled selected>Jenis Kelamin</option>
-                        <option>Laki-laki</option>
-                        <option>Perempuan</option>
-                    </select>
+                    <div class="relative">
+                        <select class="w-full border border-gray-400 p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none bg-white pr-10">
+                            <option value="" disabled selected>Jenis Kelamin</option>
+                            <option>Laki-laki</option>
+                            <option>Perempuan</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+                    </div>
                 </div>
 
                 <!-- Pekerjaan -->
-                <div class="flex flex-col gap-2">
+               <div class="flex flex-col gap-2">
                     <label class="text-xl font-medium text-gray-700">Pekerjaan</label>
-                    <select class="border border-gray-400 p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none bg-white">
-                        <option value="" disabled selected>Pilih Pekerjaan</option>
-                        <option>Pegawai Swasta</option>
-                        <option>PNS</option>
-                        <option>Wiraswasta</option>
-                        <option>Lainnya</option>
-                    </select>
+                    <div class="relative">
+                        <select class="w-full border border-gray-400 p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none bg-white pr-10">
+                            <option value="" disabled selected>Pilih Pekerjaan</option>
+                            <option>Pegawai Swasta</option>
+                            <option>PNS</option>
+                            <option>Wiraswasta</option>
+                            <option>Lainnya</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+                    </div>
                 </div>
 
                 <!-- Tanggal Lahir -->
@@ -71,11 +77,14 @@
                 <!-- Penyandang Disabilitas -->
                 <div class="flex flex-col gap-2">
                     <label class="text-xl font-medium text-gray-700">Penyandang Disabilitas?</label>
-                    <select class="border border-gray-400 p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none bg-white">
-                        <option value="" disabled selected>Pilih Status</option>
-                        <option>Ya</option>
-                        <option>Tidak</option>
-                    </select>
+                    <div class="relative">
+                        <select class="w-full border border-gray-400 p-3 rounded-sm focus:outline-none focus:ring-2 focus:ring-orange-500 appearance-none bg-white pr-10">
+                            <option value="" disabled selected>Pilih Status</option>
+                            <option>Ya</option>
+                            <option>Tidak</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"></i>
+                    </div>
                 </div>
 
                 <!-- Nomor Telp -->
