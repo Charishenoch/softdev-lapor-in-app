@@ -46,9 +46,9 @@
                 </div>
             </div>
 
-            <button class="w-full bg-gradient-to-r from-[#F75702] to-[#B91408] text-white font-bold text-xl py-4 rounded-xl shadow-lg hover:shadow-xl hover:opacity-95 transition transform hover:-translate-y-0.5 mt-4 flex items-center justify-center gap-2">
+            <a href="{{ url('/lapor') }}" class="w-full bg-gradient-to-r from-[#F75702] to-[#B91408] text-white font-bold text-xl py-4 rounded-xl shadow-lg hover:shadow-xl hover:opacity-95 transition transform hover:-translate-y-0.5 mt-4 flex items-center justify-center gap-2">
                 <i class="fa-solid fa-plus"></i> Buat Laporan Baru
-            </button>
+            </a>
 
         </div>
 
@@ -91,9 +91,9 @@
                     <p class="text-sm text-white/90 mb-5 leading-relaxed">
                         Pelajari bagaimana sistem kami mengenkripsi laporan Anda agar privasi tetap terjaga dan aman.
                     </p>
-                    <button class="bg-white text-[#B91408] w-full py-3 rounded-xl font-bold text-sm hover:bg-gray-50 transition shadow-sm">
+                    <a href="{{ url('/edukasi') }}" class="block text-center bg-white text-[#B91408] w-full py-3 rounded-xl font-bold text-sm hover:bg-gray-50 transition shadow-sm">
                         Baca Panduan
-                    </button>
+                    </a>
                 </div>
             </div>
 

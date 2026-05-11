@@ -133,8 +133,11 @@
                     </button>
                 </div>
                 
-                <div class="md:col-span-2 text-center mt-4 lg:hidden">
-                    <p class="text-sm text-gray-600">Sudah punya akun? <a href="#" class="text-[#D32F0F] font-bold hover:underline">Masuk di sini</a></p>
+                <div class="md:col-span-2 text-center mt-4 lg:hidden relative z-20">
+                    <p class="text-sm text-gray-600">
+                        Sudah punya akun? 
+                        <a href="{{ url('/login') }}" class="text-[#D32F0F] font-bold hover:underline py-2 px-1 block inline-block">Masuk di sini</a>
+                    </p>
                 </div>
 
             </form>
