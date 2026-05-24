@@ -7,17 +7,31 @@
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
         
-        <div class="p-6 border-b border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div class="p-6 border-b border-gray-200 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
             <div>
                 <h2 class="text-2xl font-bold text-[#D32F0F] uppercase tracking-wide">DARURAT</h2>
                 <p class="text-[#D32F0F] text-sm font-medium">Data laporan kejadian "DARURAT" di wilayah Anda.</p>
             </div>
             
-            <div class="relative w-full md:w-72">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+            <div class="flex flex-col sm:flex-row w-full lg:w-auto items-center gap-3">
+                
+                <div class="relative w-full sm:w-48">
+                    <select class="w-full bg-white border border-gray-300 text-gray-700 text-sm rounded-full focus:ring-[#D32F0F] focus:border-[#D32F0F] block p-2.5 px-4 appearance-none outline-none cursor-pointer transition shadow-sm">
+                        <option value="" selected>Semua Status</option>
+                        <option value="terkirim">Terkirim</option>
+                        <option value="proses">Proses Review</option>
+                        <option value="penanganan">Penanganan</option>
+                        <option value="selesai">Selesai</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs"></i>
                 </div>
-                <input type="text" placeholder="Cari ID atau Keterangan..." class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-[#D32F0F] focus:border-[#D32F0F] block pl-10 p-2.5 outline-none transition">
+
+                <div class="relative w-full sm:w-64">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass text-gray-400"></i>
+                    </div>
+                    <input type="text" placeholder="Cari ID atau Keterangan..." class="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-[#D32F0F] focus:border-[#D32F0F] block pl-10 p-2.5 outline-none transition shadow-sm">
+                </div>
             </div>
         </div>
 
