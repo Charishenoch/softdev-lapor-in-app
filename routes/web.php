@@ -11,3 +11,8 @@ Route::get('/tes-ui-register', function () {
 Route::get('/tes-ui-login', function () {
     return view('tes-login');
 });
+
+// UI Tester buat Pengaduan
+Route::get('/tes-ui-pengaduan', function () {
+    return view('tes-pengaduan');
+});
