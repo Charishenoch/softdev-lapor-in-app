@@ -30,7 +30,8 @@ if (formLogin) {
             const result = await response.json();
 
             if (response.ok) {
-                const token = result.token || (result.data ? result.data.token : null);
+                // Ambil token dari respons access_token buatan Back-End kamu
+                const token = result.access_token;
                 if(token) {
                     localStorage.setItem('api_token', token);
                 }

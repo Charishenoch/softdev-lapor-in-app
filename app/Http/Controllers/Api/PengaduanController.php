@@ -32,15 +32,15 @@ class PengaduanController extends Controller
 
         // 3. Simpan ke Database
         $pengaduan = Pengaduan::create([
-            'id_pengguna'      => $request->user()->id, // Otomatis ambil ID dari Token Login!
+            'id_pengguna'      => $request->user()->id, 
             'id_kategori'      => $request->id_kategori,
             'judul'            => $request->judul,
-            'isi_laporan'      => $request->isi_laporan, // Catatan: Nanti ini yang bakal kita Enkripsi RSA
             'tanggal_kejadian' => $request->tanggal_kejadian,
             'waktu_kejadian'   => $request->waktu_kejadian,
-            'lokasi'           => $request->lokasi,
-            'bukti_lampiran'   => $pathLampiran,
-            'status'           => 'Pending', // Status awal laporan
+            'lokasi_kejadian'  => $request->lokasi,         // Dari request 'lokasi' masuk ke 'lokasi_kejadian'
+            'deskripsi_rsa'    => $request->isi_laporan,    // Dari 'isi_laporan' masuk ke 'deskripsi_rsa'
+            'bukti_foto'       => $pathLampiran,            // Foto masuk ke 'bukti_foto'
+            'status_laporan'   => 'terkirim',               // Pakai 'terkirim' sesuai enum di databasemu
         ]);
 
         return response()->json([

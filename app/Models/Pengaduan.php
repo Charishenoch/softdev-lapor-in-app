@@ -17,11 +17,11 @@ class Pengaduan extends Model
         'id_pengguna',
         'id_kategori',
         'judul',
-        'isi_laporan',
-        'tanggal_kejadian',
-        'waktu_kejadian',
-        'lokasi',
-        'bukti_lampiran',
-        'status'
+        'tanggal_kejadian', // Yang baru ditambah
+        'waktu_kejadian',   // Yang baru ditambah
+        'lokasi_kejadian',  // Sesuai DB
+        'deskripsi_rsa',    // Sesuai DB
+        'bukti_foto',       // Sesuai DB
+        'status_laporan'    // Sesuai DB
     ];
 }
