@@ -31,4 +31,33 @@ class AdminDashboardController extends Controller
             'data' => $laporans
         ], 200);
     }
+
+    // 3. Fungsi buat Admin ngubah status laporan (Request Charis)
+    public function updateStatus(Request $request, $id)
+    {
+        // Validasi, pastikan status yang dikirim FE sesuai sama enum di database
+        $request->validate([
+            'status_laporan' => 'required|in:terkirim,proses,selesai'
+        ]);
+
+        // Cari laporan berdasarkan ID-nya
+        $laporan = Pengaduan::find($id);
+
+        if (!$laporan) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Waduh, Laporan tidak ditemukan boss!'
+            ], 404);
+        }
+
+        // Update statusnya dan simpan ke database
+        $laporan->status_laporan = $request->status_laporan;
+        $laporan->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Mantap! Status laporan berhasil diubah jadi ' . $request->status_laporan,
+            'data' => $laporan
+        ], 200);
+    }
 }

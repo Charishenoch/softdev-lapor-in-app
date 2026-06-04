@@ -11,6 +11,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 // Rute Admin dikeluarin untuk cek laporan
 Route::get('/admin/laporan', [AdminDashboardController::class, 'getSemuaLaporan']);
+Route::post('/admin/laporan/{id}/status', [AdminDashboardController::class, 'updateStatus']);
 
 // Rute yang wajib pakai token (dilindungi satpam Sanctum)
 Route::middleware('auth:sanctum')->group(function () {
