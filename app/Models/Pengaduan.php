@@ -24,4 +24,8 @@ class Pengaduan extends Model
         'bukti_foto',       // Sesuai DB
         'status_laporan'    // Sesuai DB
     ];
+
+    protected $casts = [
+    'bukti_foto' => 'array',
+    ];
 }

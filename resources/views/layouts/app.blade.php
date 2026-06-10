@@ -33,7 +33,7 @@
                 <div class="flex items-center space-x-4 md:space-x-6">
                     <button class="text-2xl text-white/90 hover:text-white transition relative">
                         <i class="fa-regular fa-bell"></i>
-                        <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-yellow-400 ring-2 ring-red-600"></span>
+                        <span id="notif-count" class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-yellow-400 ring-2 ring-red-600"></span>
                     </button>
 
                     <button class="hidden sm:flex items-center bg-white/20 hover:bg-white/30 transition-colors px-6 py-2 rounded-xl border border-white/10">
@@ -64,24 +64,6 @@
     <footer class="bg-white text-center p-4 border-t mt-auto">
         <p class="text-sm text-gray-500">&copy; 2026 Lapor.in</p>
     </footer>
-
-    <script>
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        const icon = btn.querySelector('i');
-
-        btn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-            
-            // Mengubah ikon garis tiga menjadi 'X' saat terbuka
-            if (menu.classList.contains('hidden')) {
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
-            } else {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
-            }
-        });
-    </script>
 </body>
 </html>
+@vite(['resources/js/app.js'])

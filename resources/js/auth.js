@@ -15,14 +15,15 @@ if (formLogin) {
         btn.disabled = true;
 
         try {
-            const response = await fetch('/api/login', {
+            // REVISI 1: Nambahin /auth/ di URL
+            const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    email: email,
+                    login_id: email, // Kirim sebagai login_id biar Back-End nangkep
                     kata_sandi: password
                 })
             });
@@ -30,19 +31,17 @@ if (formLogin) {
             const result = await response.json();
 
             if (response.ok) {
-                // Ambil token dari respons access_token buatan Back-End kamu
                 const token = result.access_token;
                 if(token) {
-                    localStorage.setItem('api_token', token);
+                    // REVISI 2: Samain nama kunci token dengan yang di dashboard
+                    localStorage.setItem('token_laporin', token);
                 }
                 
                 const rolePengguna = result.user ? result.user.role : 'warga';
 
                 if (rolePengguna === 'admin') {
-                    // Kalau role admin, ke panel admin
                     window.location.href = '/admin/dashboard';
                 } else {
-                    // Kalau warga biasa, ke dashboard lapor
                     window.location.href = '/dashboard';
                 }
             } else {
@@ -98,7 +97,8 @@ if (formRegister) {
         btn.disabled = true;
 
         try {
-            const response = await fetch('/api/register', {
+            // REVISI 3: Nambahin /auth/ di URL
+            const response = await fetch('/api/auth/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

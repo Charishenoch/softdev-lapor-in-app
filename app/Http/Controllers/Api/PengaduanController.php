@@ -19,7 +19,7 @@ class PengaduanController extends Controller
             'tanggal_kejadian' => 'required|date',
             'waktu_kejadian'   => 'required',
             'lokasi'           => 'required|string',
-            'bukti_lampiran'   => 'required|image|mimes:jpeg,png,jpg|max:2048', 
+            'bukti_lampiran'   => 'file|mimes:jpeg,png,jpg,mp4|max:10240', 
         ]);
 
         if ($validator->fails()) {
