@@ -6,42 +6,48 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    // 1. Kasih tahu Laravel kalau kita pakai tabel "pengguna", bukan "users"
+    protected $table = 'pengguna';
+
+    // 2. Daftarkan semua kolom yang boleh diisi dari form (Mass Assignment)
     protected $fillable = [
-        'name',
+        'nik',
+        'nama_lengkap',
+        'alamat',
+        'jenis_kelamin',
+        'pekerjaan',
+        'tanggal_lahir',
+        'disabilitas',
+        'nomor_wa',
+        'username',
         'email',
-        'password',
+        'kata_sandi',
+        'role',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    // 3. Sembunyikan kata sandi saat data diambil biar aman
     protected $hidden = [
-        'password',
+        'kata_sandi', // Ganti 'password' jadi 'kata_sandi'
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    // 4. Beri tahu Laravel kalau kolom password kita namanya 'kata_sandi'
+    public function getAuthPassword()
+    {
+        return $this->kata_sandi;
+    }
+
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'kata_sandi' => 'hashed', // Hash otomatis untuk kata_sandi
         ];
     }
 }

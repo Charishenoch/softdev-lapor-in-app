@@ -10,9 +10,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body { font-family: 'Inter', sans-serif; }
         .bg-laporin { background-color: #D32F0F; }
-        /* Warna gradien disamakan dengan desain halaman lapor */
         .btn-gradient { background: linear-gradient(to right, #F75702, #B91408); } 
-        /* Kurva disesuaikan agar tidak terlalu tajam memakan tempat */
         .rounded-left-curve { border-top-left-radius: 150px; border-bottom-left-radius: 150px; }
     </style>
 </head>
@@ -27,29 +25,30 @@
                 <p class="text-gray-500 text-sm md:text-base">Lengkapi formulir di bawah ini untuk bergabung dengan Lapor.in</p>
             </div>
 
-            <form action="#" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-                @csrf <div class="flex flex-col gap-2">
+            <form id="formRegister" class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                @csrf 
+                <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-gray-700">NIK</label>
-                    <input type="text" name="nik" placeholder="Nomor Induk Kependudukan (KTP)" class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
+                    <input type="text" name="nik" placeholder="Nomor Induk Kependudukan (KTP)" required class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
                 </div>
 
                 <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-gray-700">Nama Lengkap</label>
-                    <input type="text" name="nama" placeholder="Nama Lengkap" class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
+                    <input type="text" name="nama_lengkap" placeholder="Nama Lengkap" required class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
                 </div>
 
                 <div class="flex flex-col gap-2 md:col-span-2">
                     <label class="text-sm font-semibold text-gray-700">Alamat Tempat Tinggal</label>
-                    <input type="text" name="alamat" placeholder="Alamat Tempat Tinggal Saat Ini" class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
+                    <input type="text" name="alamat" placeholder="Alamat Tempat Tinggal Saat Ini" required class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
                 </div>
 
                 <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-gray-700">Jenis Kelamin</label>
                     <div class="relative">
-                        <select name="jenis_kelamin" class="w-full border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] appearance-none bg-white pr-10 cursor-pointer">
+                        <select name="jenis_kelamin" required class="w-full border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] appearance-none bg-white pr-10 cursor-pointer">
                             <option value="" disabled selected>Pilih Jenis Kelamin</option>
-                            <option value="L">Laki-laki</option>
-                            <option value="P">Perempuan</option>
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
                         </select>
                         <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"></i>
                     </div>
@@ -58,7 +57,7 @@
                 <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-gray-700">Pekerjaan</label>
                     <div class="relative">
-                        <select name="pekerjaan" class="w-full border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] appearance-none bg-white pr-10 cursor-pointer">
+                        <select name="pekerjaan" required class="w-full border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] appearance-none bg-white pr-10 cursor-pointer">
                             <option value="" disabled selected>Pilih Pekerjaan</option>
                             <option value="Swasta">Pegawai Swasta</option>
                             <option value="PNS">PNS</option>
@@ -71,13 +70,13 @@
 
                 <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-gray-700">Tanggal Lahir</label>
-                    <input type="date" name="tanggal_lahir" class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] text-gray-600">
+                    <input type="date" name="tanggal_lahir" required class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] text-gray-600">
                 </div>
 
                 <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-gray-700">Penyandang Disabilitas?</label>
                     <div class="relative">
-                        <select name="is_disabilitas" class="w-full border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] appearance-none bg-white pr-10 cursor-pointer">
+                        <select name="disabilitas" required class="w-full border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] appearance-none bg-white pr-10 cursor-pointer">
                             <option value="" disabled selected>Pilih Status</option>
                             <option value="Ya">Ya</option>
                             <option value="Tidak">Tidak</option>
@@ -88,34 +87,34 @@
 
                 <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-gray-700">Nomor Telp Aktif</label>
-                    <input type="tel" name="no_telp" placeholder="Minimal 8-14 Angka" class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
+                    <input type="tel" name="nomor_wa" placeholder="Minimal 8-14 Angka" required class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
                 </div>
 
                 <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-gray-700">Username</label>
-                    <input type="text" name="username" placeholder="Username" class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
+                    <input type="text" name="username" placeholder="Username" required class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
                 </div>
 
                 <div class="flex flex-col gap-2 md:col-span-2">
                     <label class="text-sm font-semibold text-gray-700">Email Aktif</label>
-                    <input type="email" name="email" placeholder="contoh@gmail.com" class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
+                    <input type="email" name="email" placeholder="contoh@gmail.com" required class="border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F]">
                 </div>
 
                 <div class="flex flex-col gap-2 relative">
                     <label class="text-sm font-semibold text-gray-700">Password</label>
                     <div class="relative">
-                        <input type="password" name="password" id="password" placeholder="••••••••" class="w-full border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] pr-12">
+                        <input type="password" name="kata_sandi" id="password" placeholder="••••••••" required class="w-full border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] pr-12">
                         <button type="button" onclick="togglePass('password', this)" class="absolute right-0 top-0 h-full px-4 text-gray-400 hover:text-gray-600 focus:outline-none">
                             <i class="fa-solid fa-eye-slash"></i>
                         </button>
                     </div>
-                    <p class="text-[11px] text-gray-500 leading-tight">Min. 8 karakter (huruf kapital, kecil, angka & simbol).</p>
+                    <p class="text-[11px] text-gray-500 leading-tight">Min. 8 karakter.</p>
                 </div>
 
                 <div class="flex flex-col gap-2">
                     <label class="text-sm font-semibold text-gray-700">Konfirmasi Password</label>
                     <div class="relative">
-                        <input type="password" name="password_confirmation" id="confirm_password" placeholder="••••••••" class="w-full border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] pr-12">
+                        <input type="password" name="kata_sandi_confirmation" id="confirm_password" placeholder="••••••••" required class="w-full border border-gray-300 p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#D32F0F] pr-12">
                         <button type="button" onclick="togglePass('confirm_password', this)" class="absolute right-0 top-0 h-full px-4 text-gray-400 hover:text-gray-600 focus:outline-none">
                             <i class="fa-solid fa-eye-slash"></i>
                         </button>
@@ -128,7 +127,7 @@
                 </div>
 
                 <div class="md:col-span-2 mt-4">
-                    <button type="submit" class="w-full btn-gradient text-white font-bold text-lg py-3.5 rounded-xl shadow-md hover:shadow-lg hover:opacity-95 transition transform hover:-translate-y-0.5">
+                    <button type="submit" id="btnRegister" class="w-full btn-gradient text-white font-bold text-lg py-3.5 rounded-xl shadow-md hover:shadow-lg hover:opacity-95 transition transform hover:-translate-y-0.5">
                         DAFTAR SEKARANG
                     </button>
                 </div>
@@ -139,7 +138,6 @@
                         <a href="{{ url('/login') }}" class="text-[#D32F0F] font-bold hover:underline py-2 px-1 block inline-block">Masuk di sini</a>
                     </p>
                 </div>
-
             </form>
         </div>
 
@@ -160,21 +158,18 @@
         </div>
     </div>
 
-    <script>
-        function togglePass(id, btn) {
-            const input = document.getElementById(id);
-            const icon = btn.querySelector('i');
-            
-            if (input.type === "password") {
-                input.type = "text";
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-                icon.classList.add('text-[#D32F0F]');
-            } else {
-                input.type = "password";
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-                icon.classList.remove('text-[#D32F0F]');
-            }
-        }
-    </script>
+    <div id="modalSuccess" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-sm w-full mx-4 text-center transform scale-95 transition-transform duration-300" id="modalContent">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-inner">
+                <i class="fa-solid fa-check text-4xl text-green-500"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Mantap Boss!</h2>
+            <p class="text-gray-600 mb-8">Akun kamu berhasil dibuat. Silakan lanjut login untuk masuk ke dashboard.</p>
+            <button id="btnModalOk" class="w-full btn-gradient text-white font-bold py-3.5 rounded-xl shadow-md hover:opacity-95 transition transform hover:-translate-y-0.5">
+                OK, Lanjut Login
+            </button>
+        </div>
+    </div>
+    @vite('resources/js/auth.js')
 </body>
 </html>

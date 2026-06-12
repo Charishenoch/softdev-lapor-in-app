@@ -23,10 +23,16 @@ return new class extends Migration
             $table->id();
             $table->string('nik', 16)->unique();
             $table->string('nama_lengkap');
-            $table->string('nomor_wa');
+            $table->text('alamat');
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
+            $table->string('pekerjaan');
+            $table->date('tanggal_lahir');
+            $table->enum('disabilitas', ['Ya', 'Tidak']);
+            $table->string('nomor_wa'); // Nomor telepon aktif
+            $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('kata_sandi');
-            $table->enum('role', ['warga', 'admin', 'superadmin']);
+            $table->enum('role', ['warga', 'admin', 'superadmin'])->default('warga');
             $table->timestamps();
         });
 

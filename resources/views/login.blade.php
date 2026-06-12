@@ -18,9 +18,7 @@
 <body class="bg-white min-h-screen flex items-center justify-center overflow-x-hidden">
 
     <div class="flex w-full min-h-screen">
-        <!-- Left Section (Hero) -->
         <div class="hidden lg:flex w-1/2 bg-laporin rounded-right-curve items-center justify-center text-white flex-col px-10 relative overflow-hidden">
-            <!-- Logo Gambar -->
             <img src="{{ asset('img/logo.png') }}" alt="Logo Laporin" class="w-80 mb-6">
             <h3 class="text-5xl font-semibold mb-8 text-center">Hallo, Selamat Datang!</h3>
             <p class="text-2xl mb-6">Belum Punya Akun?</p>
@@ -29,39 +27,34 @@
             </a>
         </div>
 
-        <!-- Form Section -->
         <div class="w-full lg:w-1/2 p-8 lg:p-16 flex flex-col justify-center items-center">
             <h1 class="text-6xl font-bold text-gray-800 mb-16">Masuk</h1>
 
-            <form class="w-full max-w-md flex flex-col gap-6">
-                <!-- Username/Email -->
+            <form id="formLogin" class="w-full max-w-md flex flex-col gap-6">
                 <div class="relative">
-                    <input type="text" placeholder="Email, No. telp, atau username" 
+                    <input type="email" id="email" name="email" placeholder="Email, No. telp, atau username" required
                            class="w-full input-gray p-4 rounded-xl focus:outline-none pr-12 text-gray-700 placeholder-gray-500">
                     <i class="fa-regular fa-user absolute right-4 top-1/2 -translate-y-1/2 text-2xl text-gray-600"></i>
                 </div>
 
-                <!-- Password -->
                 <div class="relative">
-                    <input type="password" placeholder="Password" 
+                    <input type="password" id="password" name="password" placeholder="Password" required
                            class="w-full input-gray p-4 rounded-xl focus:outline-none pr-12 text-gray-700 placeholder-gray-500">
                     <i class="fa-solid fa-lock absolute right-4 top-1/2 -translate-y-1/2 text-2xl text-gray-600"></i>
                 </div>
 
-                <!-- Lupa Password -->
                 <div class="flex justify-start">
                     <a href="#" class="text-lg font-medium text-gray-700 hover:underline">Lupa Password!</a>
                 </div>
 
-                <!-- Submit Button -->
                 <div class="mt-8">
-                    <button type="submit" class="w-full btn-gradient text-white font-bold text-5xl py-4 rounded-2xl shadow-lg hover:opacity-90 transition tracking-wider">
+                    <button type="submit" id="btnLogin" class="w-full btn-gradient text-white font-bold text-5xl py-4 rounded-2xl shadow-lg hover:opacity-90 transition tracking-wider">
                         MASUK
                     </button>
                 </div>
             </form>
         </div>
     </div>
-
+    @vite('resources/js/auth.js')
 </body>
 </html>
