@@ -31,14 +31,29 @@
                 </nav>
 
                 <div class="flex items-center space-x-4 md:space-x-6">
+                    
                     <button class="text-2xl text-white/90 hover:text-white transition relative">
                         <i class="fa-regular fa-bell"></i>
                         <span id="notif-count" class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-yellow-400 ring-2 ring-red-600"></span>
                     </button>
 
-                    <button class="hidden sm:flex items-center bg-white/20 hover:bg-white/30 transition-colors px-6 py-2 rounded-xl border border-white/10">
-                        <span class="text-lg font-medium tracking-wide">User</span>
-                    </button>
+                    <div class="hidden sm:block relative group">
+                        <button class="flex items-center bg-white/20 hover:bg-white/30 transition-colors px-6 py-2 rounded-xl border border-white/10 gap-2">
+                            <span class="text-lg font-medium tracking-wide">User</span>
+                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        </button>
+                        
+                        <div class="absolute right-0 top-full pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div class="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden">
+                                <form action="{{ url('/logout') }}" method="POST" class="w-full">
+                                    @csrf
+                                    <button type="submit" class="w-full text-left px-5 py-3 text-sm text-red-600 hover:bg-red-50 font-bold transition flex items-center gap-3">
+                                        <i class="fa-solid fa-right-from-bracket"></i> Keluar Akun
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
 
                     <button id="mobile-menu-btn" class="md:hidden text-2xl text-white p-2 focus:outline-none">
                         <i class="fa-solid fa-bars"></i>
@@ -53,6 +68,15 @@
                 <a href="{{ url('/lapor') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('lapor') ? 'bg-white/20 text-white font-bold' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">Lapor</a>
                 <a href="{{ url('/riwayat') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('riwayat') ? 'bg-white/20 text-white font-bold' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">Riwayat</a>
                 <a href="{{ url('/edukasi') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('edukasi') ? 'bg-white/20 text-white font-bold' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">Edukasi</a>
+                
+                <hr class="border-white/20 my-2">
+                
+                <form action="{{ url('/logout') }}" method="POST" class="w-full m-0 p-0">
+                    @csrf
+                    <button type="submit" class="w-full text-left px-3 py-2 rounded-md text-base font-bold text-red-200 bg-black/20 hover:bg-black/40 hover:text-white transition flex items-center gap-2">
+                        <i class="fa-solid fa-right-from-bracket"></i> Keluar Akun
+                    </button>
+                </form>
             </div>
         </div>
     </header>
@@ -64,6 +88,7 @@
     <footer class="bg-white text-center p-4 border-t mt-auto">
         <p class="text-sm text-gray-500">&copy; 2026 Lapor.in</p>
     </footer>
+
+    @vite(['resources/js/app.js'])
 </body>
 </html>
-@vite(['resources/js/app.js'])
