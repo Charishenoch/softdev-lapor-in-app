@@ -22,7 +22,8 @@ class Pengaduan extends Model
         'lokasi_kejadian',  // Sesuai DB
         'deskripsi_rsa',    // Sesuai DB
         'bukti_foto',       // Sesuai DB
-        'status_laporan'    // Sesuai DB
+        'status_laporan',    // Sesuai DB
+        'status_penting'
     ];
 
     protected $casts = [
