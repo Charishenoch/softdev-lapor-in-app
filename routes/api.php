@@ -3,32 +3,46 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\PengaduanController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AdminDashboardController;
 use App\Http\Controllers\Api\RiwayatController;
+use Illuminate\Support\Facades\Route;
 
-// Rute yang bebas diakses tanpa token
+// --- RUTE PUBLIK ---
 Route::post('/auth/register', [AuthController::class, 'register']);
-Route::post('/auth/login', [AuthController::class, 'login'])->name('login'); 
-
-// Rute Admin dikeluarin untuk cek laporan
-Route::get('/admin/laporan', [AdminDashboardController::class, 'getSemuaLaporan']);
-Route::post('/admin/laporan/{id}/status', [AdminDashboardController::class, 'updateStatus']);
-
-// Rute yang wajib pakai token (dilindungi satpam Sanctum)
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/pengaduan', [PengaduanController::class, 'store']);
-    Route::post('/auth/logout', [AuthController::class, 'logout']);
-
-// Rute Forget dan Reset PW
+Route::post('/auth/login', [AuthController::class, 'login'])->name('login');
 Route::post('/auth/forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('/auth/reset-password', [AuthController::class, 'resetPassword']);
 
-// Rute Dashboard User
-Route::get('/dashboard', [DashboardController::class, 'index']);
+// --- RUTE PRIVATE ---
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/auth/logout', [AuthController::class, 'logout']);
+
+    // Dashboard & Pengaduan User
+    Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
     Route::get('/dashboard/ongoing', [DashboardController::class, 'ongoing']);
+    Route::post('/pengaduan', [PengaduanController::class, 'store']);
+    Route::get('/riwayat', [RiwayatController::class, 'index']);
 
-// Rute Riwayat Laporan
-Route::get('/riwayat', [RiwayatController::class, 'index']);
+    // Rute Admin (Prefix 'admin')
+    // Hasil URL: /api/admin/...
+    Route::prefix('admin')->group(function () {
+        Route::get('/dashboard/statistik', [AdminDashboardController::class, 'getStatistik']);
+        Route::get('/laporan', [AdminDashboardController::class, 'getSemuaLaporan']);
+        Route::get('/laporan-darurat', [AdminDashboardController::class, 'getLaporanDarurat']);
+        
+        // Rute update status
+        Route::post('/update-status/{id}', [AdminDashboardController::class, 'updateStatus']);
+
+        // Rute save laporan penting
+        Route::post('/laporan/{id}/tandai-penting', [AdminDashboardController::class, 'togglePenting']);
+
+        // Rute laporan by kategori (Dibenahi di sini: hapus /admin agar tidak dobel)
+        Route::get('/laporan-kategori/{id_kategori}', [AdminDashboardController::class, 'getLaporanByCategory']);
+
+        //Rute usercontroll
+        Route::get('/users', [AdminUserController::class, 'index']);
+        Route::post('/users/{id}/update-role', [AdminUserController::class, 'updateRole']);
+        Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);
+    });
 });

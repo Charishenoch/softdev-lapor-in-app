@@ -19,9 +19,10 @@
                         <select name="id_kategori" id="id_kategori" class="w-full bg-[#D32F0F] text-white border-none p-3.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 appearance-none font-medium cursor-pointer" required>
                             <option value="">-- Pilih Kategori --</option>
                             <option value="1">Infrastruktur & Fasilitas</option>
-                            <option value="2">Kebersihan & Lingkungan</option>
-                            <option value="3">Keamanan & Ketertiban</option>
-                            <option value="4">Lainnya</option>
+                            <option value="2">Keamanan & Ketertiban</option>
+                            <option value="3">Kebersihan & Lingkungan</option>
+                            <option value="4">Aspirasi & Saran</option>
+                            <option value="5">Administrasi & Pelayanan</option>
                         </select>
                         <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-white pointer-events-none"></i>
                     </div>
