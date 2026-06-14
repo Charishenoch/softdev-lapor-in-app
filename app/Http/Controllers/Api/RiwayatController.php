@@ -18,7 +18,17 @@ class RiwayatController extends Controller
 
         // Dekripsi pesan dan decode JSON foto
         $laporans->transform(function ($item) {
-            $item->deskripsi_asli = RsaService::decrypt($item->deskripsi_rsa);
+            try {
+                // Proses dekripsi normal
+                $hasilDekripsi = RsaService::decrypt($item->deskripsi_rsa);
+                
+                // OBAT ANTI ERROR UTF-8
+                $item->deskripsi_asli = mb_convert_encoding($hasilDekripsi, 'UTF-8', 'UTF-8');
+                
+            } catch (\Exception $e) {
+                $item->deskripsi_asli = "[Data gagal didekripsi]";
+            }
+            
             $item->bukti_foto = json_decode($item->bukti_foto, true) ?? [];
             return $item;
         });

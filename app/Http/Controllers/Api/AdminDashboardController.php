@@ -113,11 +113,23 @@ class AdminDashboardController extends Controller
     // laporan by kategori
     public function getLaporanByCategory($id_kategori)
     {
-        // Cek apakah kategori 1 itu Infrastruktur, 2 Keamanan, dst.
-        // Gunakan id_kategori sebagai filter
         $laporans = \App\Models\Pengaduan::where('id_kategori', $id_kategori)
                                         ->latest()
                                         ->get();
+        // PROSES DEKRIPSI RSA DITAMBAHKAN DI SINI
+        $laporans->transform(function ($item) {
+            try {
+                // Proses dekripsi normal
+                $hasilDekripsi = RsaService::decrypt($item->deskripsi_rsa);
+                
+                // OBAT ANTI ERROR UTF-8: Paksa ubah teks alien jadi karakter normal (UTF-8)
+                $item->deskripsi_asli = mb_convert_encoding($hasilDekripsi, 'UTF-8', 'UTF-8');
+                
+            } catch (\Exception $e) {
+                $item->deskripsi_asli = "[Data gagal didekripsi]";
+            }
+            return $item;
+        });
 
         return response()->json([
             'success' => true,
