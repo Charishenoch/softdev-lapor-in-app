@@ -9,6 +9,7 @@ use App\Services\RsaService;
 
 class AdminDashboardController extends Controller
 {
+    // Fungsi untuk menarik semua laporan dan dekripsi RSA
     public function getSemuaLaporan()
     {
         $laporans = Pengaduan::select('pengaduan.*', 'pengguna.nama_lengkap as nama_warga')
@@ -27,37 +28,100 @@ class AdminDashboardController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Data laporan ditarik dan gembok RSA sukses dibuka!',
             'data' => $laporans
         ], 200);
     }
 
-    // 3. Fungsi buat Admin ngubah status laporan (Request Charis)
+    // Fungsi buat Admin ngubah status laporan
     public function updateStatus(Request $request, $id)
     {
-        // Validasi, pastikan status yang dikirim FE sesuai sama enum di database
-        $request->validate([
-            'status_laporan' => 'required|in:terkirim,proses,selesai'
-        ]);
+        $pengaduan = Pengaduan::find($id);
+        if (!$pengaduan) return response()->json(['success' => false], 404);
 
-        // Cari laporan berdasarkan ID-nya
-        $laporan = Pengaduan::find($id);
+        $pengaduan->status_laporan = $request->status;
+        $pengaduan->save(); 
+        
+        return response()->json(['success' => true]);
+    }
 
-        if (!$laporan) {
-            return response()->json([
-                'success' => false, 
-                'message' => 'Waduh, Laporan tidak ditemukan boss!'
-            ], 404);
+    // Statistik untuk dashboard
+    public function getStatistik()
+    {
+        try {
+            $statistik = [
+                'total' => Pengaduan::count(),
+                'laporan_masuk' => Pengaduan::where('status_laporan', 'terkirim')->count(),
+                'laporan_proses' => Pengaduan::where('status_laporan', 'proses')->count(),
+                'laporan_selesai' => Pengaduan::where('status_laporan', 'selesai')->count(),
+                
+                // DATA PENTING: Hanya ambil yang ditandai bintang
+                'laporan_penting' => Pengaduan::where('status_penting', 1)
+                    ->latest()
+                    ->get(),
+
+                'kategori_stats' => [
+                    ['id' => 'inf', 'jumlah' => Pengaduan::where('id_kategori', 1)->count()],
+                    ['id' => 'kea', 'jumlah' => Pengaduan::where('id_kategori', 2)->count()],
+                    ['id' => 'keb', 'jumlah' => Pengaduan::where('id_kategori', 3)->count()],
+                    ['id' => 'asp', 'jumlah' => Pengaduan::where('id_kategori', 4)->count()],
+                    ['id' => 'adm', 'jumlah' => Pengaduan::where('id_kategori', 5)->count()],
+                ]
+            ];
+
+            return response()->json(['success' => true, 'data' => $statistik]);
+
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    // Ambil data untuk tabel pemantauan
+    public function getLaporanDarurat(Request $request)
+    {
+        $query = Pengaduan::query();
+
+        if ($request->has('status') && $request->status !== 'all') {
+            $query->where('status_laporan', $request->status);
         }
 
-        // Update statusnya dan simpan ke database
-        $laporan->status_laporan = $request->status_laporan;
-        $laporan->save();
+        $total = $query->count();
+        $page = $request->query('page', 1);
+        $perPage = 5;
+        $offset = ($page - 1) * $perPage;
+
+        $laporans = $query->latest()->offset($offset)->limit($perPage)->get();
+
+        return response()->json([
+            'success' => true, 
+            'data' => $laporans,
+            'total_pages' => ceil($total / $perPage)
+        ]);
+    }
+
+    // Toggle bintang penting
+    public function togglePenting($id)
+    {
+        $pengaduan = Pengaduan::find($id);
+        if (!$pengaduan) return response()->json(['success' => false], 404);
+
+        $pengaduan->status_penting = !$pengaduan->status_penting;
+        $pengaduan->save();
+        
+        return response()->json(['success' => true]);
+    }
+
+    // laporan by kategori
+    public function getLaporanByCategory($id_kategori)
+    {
+        // Cek apakah kategori 1 itu Infrastruktur, 2 Keamanan, dst.
+        // Gunakan id_kategori sebagai filter
+        $laporans = \App\Models\Pengaduan::where('id_kategori', $id_kategori)
+                                        ->latest()
+                                        ->get();
 
         return response()->json([
             'success' => true,
-            'message' => 'Mantap! Status laporan berhasil diubah jadi ' . $request->status_laporan,
-            'data' => $laporan
-        ], 200);
+            'data' => $laporans
+        ]);
     }
 }
