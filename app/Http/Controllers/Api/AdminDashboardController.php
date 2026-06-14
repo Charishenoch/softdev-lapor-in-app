@@ -113,15 +113,36 @@ class AdminDashboardController extends Controller
     // laporan by kategori
     public function getLaporanByCategory($id_kategori)
     {
-        // Cek apakah kategori 1 itu Infrastruktur, 2 Keamanan, dst.
-        // Gunakan id_kategori sebagai filter
         $laporans = \App\Models\Pengaduan::where('id_kategori', $id_kategori)
                                         ->latest()
                                         ->get();
+        // PROSES DEKRIPSI RSA DITAMBAHKAN DI SINI
+        $laporans->transform(function ($item) {
+            try {
+                $item->deskripsi_asli = RsaService::decrypt($item->deskripsi_rsa);
+            } catch (\Exception $e) {
+                $item->deskripsi_asli = "[Data gagal didekripsi]";
+            }
+            return $item;
+        });
 
         return response()->json([
             'success' => true,
             'data' => $laporans
         ]);
+    }
+
+        public function getStatistikUser() {
+        // Ambil semua data user dulu
+        $users = \App\Models\User::all();
+
+        // Hitung secara manual di PHP supaya lebih aman
+        $data = [
+            'admin' => $users->where('role', 'superadmin')->count(),
+            'pegawai' => $users->where('role', 'pegawai_kelurahan')->count(),
+            'warga' => $users->where('role', 'warga')->count(),
+        ];
+        
+        return response()->json(['success' => true, 'data' => $data]);
     }
 }
