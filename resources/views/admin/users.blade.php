@@ -54,8 +54,7 @@
         </div>
 
         <div class="p-4 bg-gray-50 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600">
-            <span>Menampilkan data...</span>
-            <div class="flex items-center gap-1"></div>
+            <span id="info-pagination">Menampilkan data...</span> <div class="flex items-center gap-1"></div>
         </div>
     </div>
 

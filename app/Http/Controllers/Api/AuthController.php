@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    // 1. REGISTER
+    // 1. REGISTER (Sudah ditambah penanganan role dinamis)
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -26,11 +26,12 @@ class AuthController extends Controller
             'nomor_wa' => 'required',
             'username' => 'required|unique:pengguna',
             'email' => 'required|email|unique:pengguna',
-            'kata_sandi' => 'required|min:8|confirmed', 
+            'kata_sandi' => 'required|min:8|confirmed',
+            'role' => 'sometimes|in:warga,pegawai_kelurahan,superadmin' // Tambahan
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json(['success' => false, 'errors' => $validator->errors()], 422);
         }
 
         $user = User::create([
@@ -45,44 +46,28 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'kata_sandi' => Hash::make($request->kata_sandi), 
-            'role' => 'warga', // Default pasti warga
+            'role' => $request->role ?? 'warga', // Ambil dari request atau default warga
         ]);
 
-        return response()->json([
-            'message' => 'Registrasi Berhasil lek!',
-            'user' => $user
-        ], 201);
+        return response()->json(['success' => true, 'message' => 'Registrasi Berhasil lek!', 'user' => $user], 201);
     }
 
-   // 2. LOGIN (Upgrade: Tahan Banting Tangkap Email/Username)
+    // 2. LOGIN (Ditambah pengembalian role untuk redirect FE)
     public function login(Request $request)
     {
-        // 1. Tangkap inputan FE secara cerdas (kalau FE ngirim 'email', kita tangkap. Kalau ngirim 'login_id', kita tangkap juga)
         $loginInput = $request->input('login_id') ?? $request->input('email') ?? $request->input('username');
 
-        // 2. Validasi manual
         if (!$loginInput || !$request->kata_sandi) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Email/Username dan Kata Sandi wajib diisi lek!'
-            ], 422);
+            return response()->json(['success' => false, 'message' => 'Lengkapin datanya bosku!'], 422);
         }
 
-        // 3. Deteksi otomatis apakah yang diketik itu format email atau username
         $loginType = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-
-        // 4. Cari pengguna di database
         $user = User::where($loginType, $loginInput)->first();
 
-        // 5. Cek ketersediaan user dan kecocokan password
         if (!$user || !Hash::check($request->kata_sandi, $user->kata_sandi)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Email/Username atau Kata Sandi salah bosku!'
-            ], 401); 
+            return response()->json(['success' => false, 'message' => 'User/Password salah!'], 401);
         }
 
-        // 6. Jika lolos, Cetak Token API
         $token = $user->createToken('token_laporin')->plainTextToken;
 
         return response()->json([
@@ -90,7 +75,11 @@ class AuthController extends Controller
             'message' => 'Login Berhasil!',
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'user' => $user 
+            'user' => [
+                'id' => $user->id,
+                'username' => $user->username,
+                'role' => $user->role // INI PENTING buat FE
+            ]
         ], 200);
     }
 
@@ -163,4 +152,18 @@ class AuthController extends Controller
             'message' => 'Mantap! Password berhasil direset. Silakan login pakai password baru.'
         ], 200);
     }
+
+        public function logout(Request $request)
+    {
+        // 1. Hapus session
+        Auth::logout();
+        
+        // 2. Invalidate session biar token/session lama gak bisa dipake
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // 3. Arahkan balik ke halaman login
+        return redirect('/login'); 
+    }
+
 }

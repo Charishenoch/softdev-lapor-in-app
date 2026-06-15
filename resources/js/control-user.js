@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const tableBody = document.getElementById('user-table-body');
     const paginationContainer = document.querySelector('.flex.items-center.gap-1');
-    const infoFooter = document.querySelector('span:not([class*="w-8"])');
+    const infoFooter = document.getElementById('info-pagination');
     const modalEdit = document.getElementById('modal-edit-user');
     const modalTambah = document.getElementById('modal-tambah-user');
     const saveRoleBtn = document.getElementById('save-role-btn');
@@ -16,12 +16,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/json' }
             });
             const result = await res.json();
+            
             if (result.success) {
                 renderTable(result.data.data);
                 renderPagination(result.data);
-                if (infoFooter) infoFooter.innerText = `Menampilkan ${result.data.from || 0} sampai ${result.data.to || 0} dari ${result.data.total}.`;
-            }
-        } catch (e) { console.error('Gagal ambil data:', e); }
+                
+                // Perbaikan: Kurung tutup ini tadinya kurang
+                if (infoFooter) {
+                    infoFooter.innerText = `Menampilkan ${result.data.from || 0} sampai ${result.data.to || 0} dari ${result.data.total}.`;
+                }
+            } // <--- KURUNG TUTUP IF (result.success) INI HARUS ADA
+            
+        } catch (e) { 
+            console.error('Gagal ambil data:', e); 
+        }
     };
 
     // 2. UPDATE STATISTIK CARD
