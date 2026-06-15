@@ -9,19 +9,22 @@ use Illuminate\Http\Request; // <-- INI YANG KURANG
 class AdminUserController extends Controller 
 {
     public function index() {
-        // Ambil data user dengan pagination
-        $users = User::paginate(10);
+        // Kita ambil data user paling simpel buat ngetes
+        $users = User::paginate(5);
         return response()->json(['success' => true, 'data' => $users]);
     }
 
     public function updateRole(Request $request, $id) {
+        // TEST: Cek apakah request beneran masuk
+        // dd($request->all()); 
+
         $user = User::find($id);
         if (!$user) return response()->json(['success' => false, 'message' => 'User tidak ditemukan'], 404);
 
-        $user->role = $request->role; 
+        $user->role = $request->role;
         $user->save();
         
-        return response()->json(['success' => true, 'message' => 'Role berhasil diupdate']);
+        return response()->json(['success' => true]);
     }
 
     public function destroy($id) {

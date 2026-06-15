@@ -12,42 +12,30 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    // 1. Kasih tahu Laravel kalau kita pakai tabel "pengguna", bukan "users"
     protected $table = 'pengguna';
+    
+    // WAJIB: Kasih tahu Laravel primary key-nya (biasanya 'id')
+    protected $primaryKey = 'id'; 
 
-    // 2. Daftarkan semua kolom yang boleh diisi dari form (Mass Assignment)
     protected $fillable = [
-        'nik',
-        'nama_lengkap',
-        'alamat',
-        'jenis_kelamin',
-        'pekerjaan',
-        'tanggal_lahir',
-        'disabilitas',
-        'nomor_wa',
-        'username',
-        'email',
-        'kata_sandi',
-        'role',
+        'nik', 'nama_lengkap', 'alamat', 'jenis_kelamin', 
+        'pekerjaan', 'tanggal_lahir', 'disabilitas', 
+        'nomor_wa', 'username', 'email', 'kata_sandi', 'role',
     ];
 
-    // 3. Sembunyikan kata sandi saat data diambil biar aman
     protected $hidden = [
-        'kata_sandi', // Ganti 'password' jadi 'kata_sandi'
+        'kata_sandi', 
         'remember_token',
     ];
 
-    // 4. Beri tahu Laravel kalau kolom password kita namanya 'kata_sandi'
     public function getAuthPassword()
     {
         return $this->kata_sandi;
     }
 
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'kata_sandi' => 'hashed', // Hash otomatis untuk kata_sandi
-        ];
-    }
+    // PENTING: Gunakan protected function casts() yang standar Laravel 11
+    // Kalau Laravel kamu versi lama, gunakan $casts = [...]
+    protected $casts = [
+        'kata_sandi' => 'hashed',
+    ];
 }

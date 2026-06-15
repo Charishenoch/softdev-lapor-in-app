@@ -15,7 +15,6 @@ if (formLogin) {
         btn.disabled = true;
 
         try {
-            // REVISI 1: Nambahin /auth/ di URL
             const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
@@ -23,24 +22,27 @@ if (formLogin) {
                     'Accept': 'application/json'
                 },
                 body: JSON.stringify({
-                    login_id: email, // Kirim sebagai login_id biar Back-End nangkep
+                    login_id: email, 
                     kata_sandi: password
                 })
             });
 
             const result = await response.json();
 
-            if (response.ok) {
-                const token = result.access_token;
-                if(token) {
-                    // REVISI 2: Samain nama kunci token dengan yang di dashboard
-                    localStorage.setItem('token_laporin', token);
+            if (response.ok && result.success) {
+                // Simpan token
+                if(result.access_token) {
+                    localStorage.setItem('token_laporin', result.access_token);
                 }
                 
+                // Ambil role dari response API
                 const rolePengguna = result.user ? result.user.role : 'warga';
 
-                if (rolePengguna === 'admin') {
+                // Arahkan berdasarkan role yang bener di DB (superadmin)
+                if (rolePengguna === 'superadmin') {
                     window.location.href = '/admin/dashboard';
+                } else if (rolePengguna === 'pegawai_kelurahan') {
+                    window.location.href = '/pegawai/dashboard'; // Kalau ada dashboard pegawai
                 } else {
                     window.location.href = '/dashboard';
                 }
@@ -49,7 +51,7 @@ if (formLogin) {
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Terjadi kesalahan sistem: ' + error.message);
+            alert('Terjadi kesalahan sistem, coba lagi nanti lek!');
         } finally {
             btn.innerText = "MASUK";
             btn.disabled = false;

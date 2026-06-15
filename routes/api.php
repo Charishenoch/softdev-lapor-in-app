@@ -4,8 +4,10 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\PengaduanController;
 use App\Http\Controllers\Api\AdminDashboardController;
+use App\Http\Controllers\Api\AdminUserController;
 use App\Http\Controllers\Api\RiwayatController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ArtikelController;
 
 // --- RUTE PUBLIK ---
 Route::post('/auth/register', [AuthController::class, 'register']);
@@ -24,10 +26,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/pengaduan', [PengaduanController::class, 'store']);
     Route::get('/riwayat', [RiwayatController::class, 'index']);
 
-    // Rute Admin (Prefix 'admin')
-    // Hasil URL: /api/admin/...
+    // Rute Admin (Prefix 'admin' akan otomatis menambahkan /admin di depan semua route di bawah ini)
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard/statistik', [AdminDashboardController::class, 'getStatistik']);
+        
+        // Rute untuk update statistik card di Control User
+        Route::get('/statistik-user', [AdminDashboardController::class, 'getStatistikUser']);
+        
         Route::get('/laporan', [AdminDashboardController::class, 'getSemuaLaporan']);
         Route::get('/laporan-darurat', [AdminDashboardController::class, 'getLaporanDarurat']);
         
@@ -37,12 +42,18 @@ Route::middleware('auth:sanctum')->group(function () {
         // Rute save laporan penting
         Route::post('/laporan/{id}/tandai-penting', [AdminDashboardController::class, 'togglePenting']);
 
-        // Rute laporan by kategori (Dibenahi di sini: hapus /admin agar tidak dobel)
+        // Rute laporan by kategori
         Route::get('/laporan-kategori/{id_kategori}', [AdminDashboardController::class, 'getLaporanByCategory']);
 
-        //Rute usercontroll
+        // Rute User Control
         Route::get('/users', [AdminUserController::class, 'index']);
         Route::post('/users/{id}/update-role', [AdminUserController::class, 'updateRole']);
         Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);
+
+        // RUTE ARTIKEL EDUKASI (Diubah dari /admin/artikel jadi /artikel)
+        Route::post('/artikel', [ArtikelController::class, 'store']);
+
+        // Rute untuk narik data artikel edukasi (Warga & Admin bisa akses)
+        Route::get('/artikel', [ArtikelController::class, 'index']);
     });
 });

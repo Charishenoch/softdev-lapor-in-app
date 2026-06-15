@@ -13,70 +13,77 @@
         body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 min-h-screen flex flex-col overflow-x-hidden">
+
+<body class="bg-gray-50 min-h-screen flex flex-col antialiased">
 
     <header class="bg-gradient-to-r from-[#F75702] to-[#B91408] text-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                
-                <a href="{{ url('/dashboard') }}" class="flex-shrink-0 flex items-center cursor-pointer">
+                <a href="{{ url('/dashboard') }}" class="flex-shrink-0">
                     <img src="{{ asset('img/logo.png') }}" alt="Logo Lapor.in" class="h-10 w-auto">
                 </a>
 
-                <nav class="hidden md:flex space-x-10">
-                    <a href="{{ url('/dashboard') }}" class="text-lg {{ request()->is('dashboard') ? 'font-bold border-b-[3px] border-white pb-1' : 'font-medium text-white/80 hover:text-white hover:border-b-[3px] hover:border-white/50 pb-1 transition-all' }}">Dashboard</a>
-                    <a href="{{ url('/lapor') }}" class="text-lg {{ request()->is('lapor') ? 'font-bold border-b-[3px] border-white pb-1' : 'font-medium text-white/80 hover:text-white hover:border-b-[3px] hover:border-white/50 pb-1 transition-all' }}">Lapor</a>
-                    <a href="{{ url('/riwayat') }}" class="text-lg {{ request()->is('riwayat') ? 'font-bold border-b-[3px] border-white pb-1' : 'font-medium text-white/80 hover:text-white hover:border-b-[3px] hover:border-white/50 pb-1 transition-all' }}">Riwayat</a>
-                    <a href="{{ url('/edukasi') }}" class="text-lg {{ request()->is('edukasi') ? 'font-bold border-b-[3px] border-white pb-1' : 'font-medium text-white/80 hover:text-white hover:border-b-[3px] hover:border-white/50 pb-1 transition-all' }}">Edukasi</a>
+                @php
+                    $navLinks = [
+                        ['url' => '/dashboard', 'label' => 'Dashboard'],
+                        ['url' => '/lapor', 'label' => 'Lapor'],
+                        ['url' => '/riwayat', 'label' => 'Riwayat'],
+                        ['url' => '/edukasi', 'label' => 'Edukasi'],
+                    ];
+                @endphp
+                <nav class="hidden md:flex space-x-8">
+                    @foreach($navLinks as $link)
+                        <a href="{{ url($link['url']) }}" 
+                           class="text-lg pb-1 transition-all {{ request()->is(ltrim($link['url'], '/')) ? 'font-bold border-b-2 border-white' : 'font-medium text-white/80 hover:text-white hover:border-b-2 hover:border-white/50' }}">
+                           {{ $link['label'] }}
+                        </a>
+                    @endforeach
                 </nav>
 
-                <div class="flex items-center space-x-4 md:space-x-6">
-                    <button class="text-2xl text-white/90 hover:text-white transition relative">
+                <div class="flex items-center gap-4">
+                    <button class="text-xl hover:text-yellow-300 transition relative">
                         <i class="fa-regular fa-bell"></i>
-                        <span id="notif-count" class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-yellow-400 ring-2 ring-red-600"></span>
+                        <span class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-yellow-400 ring-2 ring-red-600"></span>
                     </button>
 
                     <div class="hidden sm:block relative group">
-                        <button class="flex items-center bg-white/20 hover:bg-white/30 transition-colors px-6 py-2 rounded-xl border border-white/10 gap-2">
-                            <span class="text-lg font-medium tracking-wide">User</span>
-                            <i class="fa-solid fa-chevron-down text-sm"></i>
+                        <button class="flex items-center bg-white/20 hover:bg-white/30 px-5 py-2 rounded-xl border border-white/10 gap-2 transition">
+                            <span class="font-medium tracking-wide">User</span>
+                            <i class="fa-solid fa-chevron-down text-xs"></i>
                         </button>
-                        
-                        <div class="absolute right-0 top-full pt-2 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                            <div class="bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden">
-                                <form action="{{ url('/logout') }}" method="POST" class="w-full">
+                        <div class="absolute right-0 top-full pt-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+                                <form action="{{ url('/logout') }}" method="POST">
                                     @csrf
-                                    <button type="submit" class="w-full text-left px-5 py-3 text-sm text-red-600 hover:bg-red-50 font-bold transition flex items-center gap-3">
-                                        <i class="fa-solid fa-right-from-bracket"></i> Keluar Akun
+                                    <button type="submit" class="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 font-bold flex items-center gap-2">
+                                        <i class="fa-solid fa-right-from-bracket"></i> Keluar
                                     </button>
                                 </form>
                             </div>
                         </div>
                     </div>
 
-                    <button id="mobile-menu-btn" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden text-2xl text-white p-2 focus:outline-none">
+                    <button id="mobile-menu-btn" class="md:hidden text-2xl p-2 focus:outline-none">
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden bg-[#990F05] shadow-inner">
-            <div class="px-4 pt-2 pb-4 space-y-2">
-                <a href="{{ url('/dashboard') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('dashboard') ? 'bg-white/20 text-white font-bold' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">Dashboard</a>
-                <a href="{{ url('/lapor') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('lapor') ? 'bg-white/20 text-white font-bold' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">Lapor</a>
-                <a href="{{ url('/riwayat') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('riwayat') ? 'bg-white/20 text-white font-bold' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">Riwayat</a>
-                <a href="{{ url('/edukasi') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('edukasi') ? 'bg-white/20 text-white font-bold' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">Edukasi</a>
-                
-                <hr class="border-white/20 my-2">
-
-                <form action="{{ url('/logout') }}" method="POST" class="w-full m-0 p-0">
-                    @csrf
-                    <button type="submit" class="w-full text-left px-3 py-2 rounded-md text-base font-bold text-red-200 bg-black/20 hover:bg-black/40 hover:text-white transition flex items-center gap-2">
-                        <i class="fa-solid fa-right-from-bracket"></i> Keluar Akun
-                    </button>
-                </form>
-            </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-[#990F05] border-t border-white/10 px-4 py-4 space-y-2">
+            @foreach($navLinks as $link)
+                <a href="{{ url($link['url']) }}" 
+                   class="block px-3 py-2 rounded-lg font-medium {{ request()->is(ltrim($link['url'], '/')) ? 'bg-white/20 text-white' : 'text-white/80 hover:bg-white/10' }}">
+                   {{ $link['label'] }}
+                </a>
+            @endforeach
+            <hr class="border-white/10 my-2">
+            <form action="{{ url('/logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="w-full text-left px-3 py-2 text-red-200 font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-right-from-bracket"></i> Keluar Akun
+                </button>
+            </form>
         </div>
     </header>
 
@@ -84,9 +91,15 @@
         @yield('content')
     </main>
 
-    <footer class="bg-white text-center p-4 border-t mt-auto">
-        <p class="text-sm text-gray-500">&copy; 2026 Lapor.in</p>
+    <footer class="bg-white text-center p-4 border-t mt-auto text-sm text-gray-500">
+        &copy; {{ date('Y') }} Lapor.in
     </footer>
+
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+    </script>
+    @vite(['resources/js/app.js'])
 </body>
 </html>
-@vite(['resources/js/app.js'])

@@ -119,12 +119,7 @@ class AdminDashboardController extends Controller
         // PROSES DEKRIPSI RSA DITAMBAHKAN DI SINI
         $laporans->transform(function ($item) {
             try {
-                // Proses dekripsi normal
-                $hasilDekripsi = RsaService::decrypt($item->deskripsi_rsa);
-                
-                // OBAT ANTI ERROR UTF-8: Paksa ubah teks alien jadi karakter normal (UTF-8)
-                $item->deskripsi_asli = mb_convert_encoding($hasilDekripsi, 'UTF-8', 'UTF-8');
-                
+                $item->deskripsi_asli = RsaService::decrypt($item->deskripsi_rsa);
             } catch (\Exception $e) {
                 $item->deskripsi_asli = "[Data gagal didekripsi]";
             }
@@ -135,5 +130,19 @@ class AdminDashboardController extends Controller
             'success' => true,
             'data' => $laporans
         ]);
+    }
+
+        public function getStatistikUser() {
+        // Ambil semua data user dulu
+        $users = \App\Models\User::all();
+
+        // Hitung secara manual di PHP supaya lebih aman
+        $data = [
+            'admin' => $users->where('role', 'superadmin')->count(),
+            'pegawai' => $users->where('role', 'pegawai_kelurahan')->count(),
+            'warga' => $users->where('role', 'warga')->count(),
+        ];
+        
+        return response()->json(['success' => true, 'data' => $data]);
     }
 }
