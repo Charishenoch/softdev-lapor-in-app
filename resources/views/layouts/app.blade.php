@@ -31,7 +31,6 @@
                 </nav>
 
                 <div class="flex items-center space-x-4 md:space-x-6">
-                    
                     <button class="text-2xl text-white/90 hover:text-white transition relative">
                         <i class="fa-regular fa-bell"></i>
                         <span id="notif-count" class="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full bg-yellow-400 ring-2 ring-red-600"></span>
@@ -55,7 +54,7 @@
                         </div>
                     </div>
 
-                    <button id="mobile-menu-btn" class="md:hidden text-2xl text-white p-2 focus:outline-none">
+                    <button id="mobile-menu-btn" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden text-2xl text-white p-2 focus:outline-none">
                         <i class="fa-solid fa-bars"></i>
                     </button>
                 </div>
@@ -70,7 +69,7 @@
                 <a href="{{ url('/edukasi') }}" class="block px-3 py-2 rounded-md text-base font-medium {{ request()->is('edukasi') ? 'bg-white/20 text-white font-bold' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">Edukasi</a>
                 
                 <hr class="border-white/20 my-2">
-                
+
                 <form action="{{ url('/logout') }}" method="POST" class="w-full m-0 p-0">
                     @csrf
                     <button type="submit" class="w-full text-left px-3 py-2 rounded-md text-base font-bold text-red-200 bg-black/20 hover:bg-black/40 hover:text-white transition flex items-center gap-2">
@@ -88,7 +87,6 @@
     <footer class="bg-white text-center p-4 border-t mt-auto">
         <p class="text-sm text-gray-500">&copy; 2026 Lapor.in</p>
     </footer>
-
-    @vite(['resources/js/app.js'])
 </body>
 </html>
+@vite(['resources/js/app.js'])
