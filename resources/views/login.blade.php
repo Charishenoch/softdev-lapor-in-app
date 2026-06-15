@@ -18,7 +18,6 @@
 <body class="bg-white min-h-screen flex items-center justify-center overflow-x-hidden">
 
     <div class="flex w-full min-h-screen">
-        <!-- Bagian Kiri (Logo & Register) -->
         <div class="hidden lg:flex w-1/2 bg-laporin rounded-right-curve items-center justify-center text-white flex-col px-10 relative overflow-hidden">
             <img src="{{ asset('img/logo.png') }}" alt="Logo Laporin" class="w-80 mb-6">
             <h3 class="text-5xl font-semibold mb-8 text-center">Hallo, Selamat Datang!</h3>
@@ -28,11 +27,12 @@
             </a>
         </div>
 
-        <!-- Bagian Kanan (Form Login) -->
         <div class="w-full lg:w-1/2 p-8 lg:p-16 flex flex-col justify-center items-center">
-            <h1 class="text-6xl font-bold text-gray-800 mb-16">Masuk</h1>
+            
+            <img src="{{ asset('img/logo-dark.png') }}" alt="Laporin" class="w-32 mb-8 lg:hidden block">
 
-            <!-- FORM REVISI: Penambahan Action, Method, dan CSRF Token -->
+            <h1 class="text-5xl lg:text-6xl font-bold text-gray-800 mb-12 lg:mb-16">Masuk</h1>
+
             <form action="{{ url('/login') }}" method="POST" id="formLogin" class="w-full max-w-md flex flex-col gap-6">
                 @csrf
                 
@@ -53,15 +53,24 @@
                 </div>
 
                 <div class="mt-8">
-                    <!-- Tombol Masuk sudah menggunakan type="submit" -->
-                    <button type="submit" id="btnLogin" class="w-full btn-gradient text-white font-bold text-5xl py-4 rounded-2xl shadow-lg hover:opacity-90 transition tracking-wider">
+                    <button type="submit" id="btnLogin" class="w-full btn-gradient text-white font-bold text-4xl lg:text-5xl py-4 rounded-2xl shadow-lg hover:opacity-90 transition tracking-wider">
                         MASUK
                     </button>
                 </div>
+
+                <div class="mt-6 text-center lg:hidden">
+                    <p class="text-gray-600 text-lg">
+                        Belum punya akun? 
+                        <a href="{{ url('/register') }}" class="text-[#D32F0F] font-bold hover:underline transition">
+                            Daftar sekarang
+                        </a>
+                    </p>
+                </div>
+
             </form>
         </div>
     </div>
     
     @vite('resources/js/auth.js')
 </body>
-</html>
+</html> 
