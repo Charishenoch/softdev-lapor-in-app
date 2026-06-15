@@ -6,42 +6,36 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table = 'pengguna';
+    
+    // WAJIB: Kasih tahu Laravel primary key-nya (biasanya 'id')
+    protected $primaryKey = 'id'; 
+
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'nik', 'nama_lengkap', 'alamat', 'jenis_kelamin', 
+        'pekerjaan', 'tanggal_lahir', 'disabilitas', 
+        'nomor_wa', 'username', 'email', 'kata_sandi', 'role',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
-        'password',
+        'kata_sandi', 
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function getAuthPassword()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->kata_sandi;
     }
+
+    // PENTING: Gunakan protected function casts() yang standar Laravel 11
+    // Kalau Laravel kamu versi lama, gunakan $casts = [...]
+    protected $casts = [
+        'kata_sandi' => 'hashed',
+    ];
 }
