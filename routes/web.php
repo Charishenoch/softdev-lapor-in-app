@@ -26,7 +26,10 @@ Route::get('/tes-ui-pengaduan', function () {
 Route::get('/', function () { return view('login'); }); // Halaman awal langsung ke Login
 Route::get('/login', function () { return view('login'); });
 // Tambahkan di routes/web.php
-Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', function () {
+    // Rute ini cuma buat ngelempar user balik ke halaman login secara visual
+    return redirect('/login');
+})->name('logout');
 Route::get('/register', function () { return view('register'); });
 
 // Halaman Utama Lapor.in
