@@ -35,7 +35,7 @@
                     @foreach($navLinks as $link)
                         <a href="{{ url($link['url']) }}" 
                            class="text-lg pb-1 transition-all {{ request()->is(ltrim($link['url'], '/')) ? 'font-bold border-b-2 border-white' : 'font-medium text-white/80 hover:text-white hover:border-b-2 hover:border-white/50' }}">
-                           {{ $link['label'] }}
+                            {{ $link['label'] }}
                         </a>
                     @endforeach
                 </nav>
@@ -53,7 +53,7 @@
                         </button>
                         <div class="absolute right-0 top-full pt-2 w-40 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                             <div class="bg-white rounded-xl shadow-xl overflow-hidden">
-                                <form action="{{ url('/logout') }}" method="POST">
+                                <form action="{{ url('/logout') }}" method="POST" onsubmit="localStorage.removeItem('token_laporin');">
                                     @csrf
                                     <button type="submit" class="w-full text-left px-4 py-3 text-sm text-red-600 hover:bg-red-50 font-bold flex items-center gap-2">
                                         <i class="fa-solid fa-right-from-bracket"></i> Keluar
@@ -74,11 +74,11 @@
             @foreach($navLinks as $link)
                 <a href="{{ url($link['url']) }}" 
                    class="block px-3 py-2 rounded-lg font-medium {{ request()->is(ltrim($link['url'], '/')) ? 'bg-white/20 text-white' : 'text-white/80 hover:bg-white/10' }}">
-                   {{ $link['label'] }}
+                    {{ $link['label'] }}
                 </a>
             @endforeach
             <hr class="border-white/10 my-2">
-            <form action="{{ url('/logout') }}" method="POST">
+            <form action="{{ url('/logout') }}" method="POST" onsubmit="localStorage.removeItem('token_laporin');">
                 @csrf
                 <button type="submit" class="w-full text-left px-3 py-2 text-red-200 font-bold flex items-center gap-2">
                     <i class="fa-solid fa-right-from-bracket"></i> Keluar Akun

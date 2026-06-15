@@ -41,7 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // FormData otomatis ngambil semua input, termasuk file gambar dan hidden input status
                 const formData = new FormData(formArtikel);
 
-                const res = await fetch('/api/admin/artikel', {
+                // FIX RUTE: /admin dihapus biar sinkron sama web.php
+                const res = await fetch('/api/artikel', {
                     method: 'POST',
                     headers: {
                         'Authorization': 'Bearer ' + token,

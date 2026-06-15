@@ -29,7 +29,7 @@
 
         <div class="w-full lg:w-1/2 p-8 lg:p-16 flex flex-col justify-center items-center">
             
-            <img src="{{ asset('img/logo-dark.png') }}" alt="Laporin" class="w-32 mb-8 lg:hidden block">
+            <img src="{{ asset('img/logo.png') }}" alt="Laporin" class="w-32 mb-8 lg:hidden block">
 
             <h1 class="text-5xl lg:text-6xl font-bold text-gray-800 mb-12 lg:mb-16">Masuk</h1>
 

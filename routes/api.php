@@ -26,6 +26,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/pengaduan', [PengaduanController::class, 'store']);
     Route::get('/riwayat', [RiwayatController::class, 'index']);
 
+    // RUTE ARTIKEL EDUKASI 
+    // (Udah dikeluarin dari prefix admin biar Warga & Admin bisa akses lewat /api/artikel)
+    Route::post('/artikel', [ArtikelController::class, 'store']);
+    Route::get('/artikel', [ArtikelController::class, 'index']);
+
     // Rute Admin (Prefix 'admin' akan otomatis menambahkan /admin di depan semua route di bawah ini)
     Route::prefix('admin')->group(function () {
         Route::get('/dashboard/statistik', [AdminDashboardController::class, 'getStatistik']);
@@ -49,11 +54,5 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/users', [AdminUserController::class, 'index']);
         Route::post('/users/{id}/update-role', [AdminUserController::class, 'updateRole']);
         Route::delete('/users/{id}', [AdminUserController::class, 'destroy']);
-
-        // RUTE ARTIKEL EDUKASI (Diubah dari /admin/artikel jadi /artikel)
-        Route::post('/artikel', [ArtikelController::class, 'store']);
-
-        // Rute untuk narik data artikel edukasi (Warga & Admin bisa akses)
-        Route::get('/artikel', [ArtikelController::class, 'index']);
     });
 });
